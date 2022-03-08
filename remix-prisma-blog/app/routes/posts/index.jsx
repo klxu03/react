@@ -28,18 +28,23 @@ function PostItems() {
 	const data = useLoaderData();
 
 	return (
-		<div>
-			<h1>Posts</h1>
+		<>
+			<div className="page-header">
+				<h1>Posts</h1>
+				<Link to="/posts/new" className="btn">
+					New Post
+				</Link>
+			</div>
 			<ul className="posts-list">
 				{data.posts.map((post) => (
 					<li key={post.id}>
-						<Link to={post.id}>
+						<Link to={`/posts/${post.id}`}>
 							<h3>{post.title}</h3>
 						</Link>
 					</li>
 				))}
 			</ul>
-		</div>
+		</>
 	);
 }
 
