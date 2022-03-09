@@ -32,6 +32,14 @@ npm run checkDb
 
 This opens up a site to look at your database's content on [http://localhost:5555](http://localhost:5555)
 
+## Port Still Not Closing
+
+```sh
+sudo kill -9 $(sudo lsof -t -i:3000)
+```
+
+The lsof will first get the port numbers that end in :3000 and then sudo kill will kill them
+
 ## Deployment
 
 First, build your app for production:
