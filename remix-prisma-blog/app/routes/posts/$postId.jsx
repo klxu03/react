@@ -1,6 +1,7 @@
 import { useLoaderData, Link, redirect } from 'remix';
 import { db } from '~/utils/db.server';
 import { getUser } from '~/utils/session.server';
+import { getUsername } from '~/utils/post.server';
 
 export const loader = async ({ request, params }) => {
   const user = await getUser(request);
@@ -11,7 +12,11 @@ export const loader = async ({ request, params }) => {
 
   if (!post) throw new Error('Post not found');
 
-  const data = { post, user };
+  console.log('made it here');
+  const username = await getUsername(post.userId);
+  // const username = post.userId;
+
+  const data = { post, user, username };
   return data;
 };
 
@@ -47,6 +52,9 @@ function Post() {
           Back
         </Link>
       </div>
+
+      <h3>Author: {data.username}</h3>
+      <br />
 
       <div className="page-content">{data.post.body}</div>
 
