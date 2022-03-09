@@ -4,7 +4,12 @@ import { getUser } from '~/utils/session.server';
 import { getUsername } from '~/utils/post.server';
 
 export const loader = async ({ request, params }) => {
-  const user = await getUser(request);
+  let user = await getUser(request);
+  if (!user) {
+    user = {
+      id: null,
+    };
+  }
 
   const post = await db.post.findUnique({
     where: { id: params.postId },
