@@ -12,6 +12,26 @@ npm run dev
 
 This starts your app in development mode, rebuilding assets on file changes.
 
+## Database
+
+```sh
+npm run newDb
+```
+
+This pushes out the schema.prisma file in prisma into a dev.db creating the database
+
+```sh
+npm run seed
+```
+
+This populates the database you created with some initial posts written by a default user
+
+```sh
+npm run checkDb
+```
+
+This opens up a site to look at your database's content on [http://localhost:5555](http://localhost:5555)
+
 ## Deployment
 
 First, build your app for production:
