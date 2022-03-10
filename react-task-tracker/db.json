@@ -23,6 +23,12 @@
       "day": "March 10th at 5:55pm",
       "reminder": true,
       "id": 6
+    },
+    {
+      "text": "Sleep Early",
+      "day": "March 10th at 11:59pm",
+      "reminder": false,
+      "id": 7
     }
   ]
 }
