@@ -1,130 +1,133 @@
-import Header from "./components/Header";
-import Tasks from "./components/Tasks";
-import AddTask from "./components/AddTask";
-import Footer from "./components/Footer";
-import About from "./components/About";
+import Header from './components/Header';
+import Tasks from './components/Tasks';
+import AddTask from './components/AddTask';
+import Footer from './components/Footer';
+import About from './components/About';
 
-import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
-	const [tasks, setTasks] = useState([]);
-	const [showAddTask, setShowAddTask] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [showAddTask, setShowAddTask] = useState(false);
 
-	// Initially Load in Tasks
-	useEffect(() => {
-		const getTasks = async () => {
-			const tasksFromServer = await fetchTasks();
-			setTasks(tasksFromServer);
-		};
+  // Initially Load in Tasks
+  useEffect(() => {
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTasks();
+      setTasks(tasksFromServer);
+    };
 
-		getTasks();
-	}, []);
+    getTasks();
+  }, []);
 
-	// Fetch tasks
-	const fetchTasks = async () => {
-		const res = await fetch("http://localhost:5000/tasks");
-		const data = await res.json();
+  const serverURL = 'http://localhost:5000';
+  // const serverURL = 'https://wild-carrots-cover-128-220-159-212.loca.lt';
 
-		return data;
-	};
+  // Fetch tasks
+  const fetchTasks = async () => {
+    const res = await fetch(`${serverURL}/tasks`);
+    const data = await res.json();
 
-	// Fetch task
-	const fetchTask = async (id) => {
-		const res = await fetch(`http://localhost:5000/tasks/${id}`);
-		const data = await res.json();
+    return data;
+  };
 
-		return data;
-	};
+  // Fetch task
+  const fetchTask = async (id) => {
+    const res = await fetch(`${serverURL}/tasks/${id}`);
+    const data = await res.json();
 
-	// Add Task
-	const addTask = async (task) => {
-		const res = await fetch(`http://localhost:5000/tasks`, {
-			method: "POST",
-			headers: {
-				"Content-type": "application/json",
-			},
-			body: JSON.stringify(task),
-		});
+    return data;
+  };
 
-		const data = await res.json();
-		setTasks([...tasks, data]);
-	};
+  // Add Task
+  const addTask = async (task) => {
+    const res = await fetch(`${serverURL}/tasks`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(task),
+    });
 
-	// Delete Task
-	const deleteTask = async (id) => {
-		await fetch(`http://localhost:5000/tasks/${id}`, {
-			method: "DELETE",
-		});
+    const data = await res.json();
+    setTasks([...tasks, data]);
+  };
 
-		// console.log("delete", id);
+  // Delete Task
+  const deleteTask = async (id) => {
+    await fetch(`${serverURL}/tasks/${id}`, {
+      method: 'DELETE',
+    });
 
-		setTasks(tasks.filter((task) => task.id !== id));
-	};
+    // console.log("delete", id);
 
-	// Toggle Reminder
-	const toggleReminder = async (id) => {
-		// console.log("reminder", id);
-		// setTasks(
-		// 	tasks.map((task) =>
-		// 		task.id === id ? { ...task, reminder: !task.reminder } : task
-		// 	)
-		// );
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
 
-		const taskToToggle = await fetchTask(id);
-		const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
+  // Toggle Reminder
+  const toggleReminder = async (id) => {
+    // console.log("reminder", id);
+    // setTasks(
+    // 	tasks.map((task) =>
+    // 		task.id === id ? { ...task, reminder: !task.reminder } : task
+    // 	)
+    // );
 
-		const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-			method: "PUT",
-			headers: {
-				"Content-type": "application/json",
-			},
-			body: JSON.stringify(updTask),
-		});
+    const taskToToggle = await fetchTask(id);
+    const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
 
-		const data = await res.json();
+    const res = await fetch(`${serverURL}/tasks/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(updTask),
+    });
 
-		setTasks(
-			tasks.map((task) =>
-				task.id === id ? { ...task, reminder: data.reminder } : task
-			)
-		);
-	};
+    const data = await res.json();
 
-	return (
-		<Router>
-			<div className="container">
-				<Header
-					onAdd={() => setShowAddTask(!showAddTask)}
-					showAdd={showAddTask}
-				/>
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, reminder: data.reminder } : task
+      )
+    );
+  };
 
-				<Routes>
-					<Route
-						path="/"
-						exact
-						element={
-							<>
-								{showAddTask && <AddTask onAdd={addTask} />}
-								{tasks.length > 0 ? (
-									<Tasks
-										tasks={tasks}
-										onDelete={deleteTask}
-										onToggle={toggleReminder}
-									/>
-								) : (
-									"No Tasks to Show"
-								)}
-							</>
-						}
-					/>
-					<Route path="about" element={<About />} />
-				</Routes>
+  return (
+    <Router>
+      <div className="container">
+        <Header
+          onAdd={() => setShowAddTask(!showAddTask)}
+          showAdd={showAddTask}
+        />
 
-				<Footer />
-			</div>
-		</Router>
-	);
+        <Routes>
+          <Route
+            path="/"
+            exact
+            element={
+              <>
+                {showAddTask && <AddTask onAdd={addTask} />}
+                {tasks.length > 0 ? (
+                  <Tasks
+                    tasks={tasks}
+                    onDelete={deleteTask}
+                    onToggle={toggleReminder}
+                  />
+                ) : (
+                  'No Tasks to Show'
+                )}
+              </>
+            }
+          />
+          <Route path="about" element={<About />} />
+        </Routes>
+
+        <Footer />
+      </div>
+    </Router>
+  );
 }
 
 export default App;

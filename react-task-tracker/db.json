@@ -7,18 +7,6 @@
       "reminder": true
     },
     {
-      "id": 2,
-      "text": "Meeting at School",
-      "day": "Feb 6th at 1:30pm",
-      "reminder": false
-    },
-    {
-      "text": "Superman",
-      "day": "123",
-      "reminder": true,
-      "id": 4
-    },
-    {
       "text": "Demo Task",
       "day": "March 10th at 5:55pm",
       "reminder": true,
@@ -29,6 +17,36 @@
       "day": "March 10th at 11:59pm",
       "reminder": false,
       "id": 7
+    },
+    {
+      "text": "Lets go",
+      "day": "32",
+      "reminder": false,
+      "id": 8
+    },
+    {
+      "text": "Colin",
+      "day": "May",
+      "reminder": true,
+      "id": 9
+    },
+    {
+      "text": "Yes",
+      "day": "32",
+      "reminder": false,
+      "id": 10
+    },
+    {
+      "text": "Lets go",
+      "day": "",
+      "reminder": false,
+      "id": 11
+    },
+    {
+      "text": "Make habitica",
+      "day": "32",
+      "reminder": false,
+      "id": 12
     }
   ]
 }
